@@ -104,6 +104,7 @@ architecture top_basys3_arch of top_basys3 is
     end component clock_divider;
   
   signal w_slow_clk : std_logic;
+
 begin
 	-- PORT MAPS ----------------------------------------
     thunderbird_inst : thunderbird_fsm
@@ -114,6 +115,14 @@ begin
             i_right => sw(0),
             o_lights_L => led(15 downto 13),
             o_lights_R => led(2 downto 0)
+        );
+        
+        clkdiv_inst : clock_divider
+        generic map ( k_DIV => 25000000 )
+        port map (
+            i_clk   => clk,
+            i_reset => btnL,
+            o_clk   => w_slow_clk
         );
 	
 	
