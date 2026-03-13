@@ -103,42 +103,20 @@ architecture thunderbird_fsm_arch of thunderbird_fsm is
 begin
 
 	-- CONCURRENT STATEMENTS --------------------------------------------------------	
--- L1 is active if we were at OFF and ONLY left was pressed
 f_Q_next(1) <= f_Q(0) and i_left and not i_right;
-
--- L2 is active if we were just at L1
 f_Q_next(2) <= f_Q(1);
-
--- L3 is active if we were just at L2
 f_Q_next(3) <= f_Q(2);
-
--- R1 is active if we were at OFF and ONLY right was pressed
 f_Q_next(4) <= f_Q(0) and i_right and not i_left;
-
--- R2 is active if we were just at R1
 f_Q_next(5) <= f_Q(4);
-
--- R3 is active if we were just at R2
 f_Q_next(6) <= f_Q(5);
-
--- ON (Hazards) is active if we were at OFF and BOTH were pressed
 f_Q_next(7) <= f_Q(0) and i_left and i_right;
-
--- OFF is active if we just finished L3, R3, or ON, 
--- or if we are at OFF and no buttons are pressed
 f_Q_next(0) <= f_Q(3) or f_Q(6) or f_Q(7) or 
                (f_Q(0) and not i_left and not i_right);
-
-    -- OUTPUT LOGIC (Mutual Exclusion added)
-    -- Right Turn (RA, RB, RC)
-    -- Left lights: LA is on in L1, L2, L3, and ON. LB is L2, L3, ON... etc.
-o_lights_L(0) <= f_Q(1) or f_Q(2) or f_Q(3) or f_Q(7); -- LA
-o_lights_L(1) <= f_Q(2) or f_Q(3) or f_Q(7);          -- LB
-o_lights_L(2) <= f_Q(3) or f_Q(7);                    -- LC
-
--- Right lights
-o_lights_R(0) <= f_Q(6) or f_Q(7); -- RA
-o_lights_R(1) <= f_Q(5) or f_Q(6) or f_Q(7);          -- RB
+o_lights_L(0) <= f_Q(1) or f_Q(2) or f_Q(3) or f_Q(7); 
+o_lights_L(1) <= f_Q(2) or f_Q(3) or f_Q(7);          
+o_lights_L(2) <= f_Q(3) or f_Q(7);                    
+o_lights_R(0) <= f_Q(6) or f_Q(7); 
+o_lights_R(1) <= f_Q(5) or f_Q(6) or f_Q(7);          
 o_lights_R(2) <= f_Q(4) or f_Q(5) or f_Q(6) or f_Q(7);
 
 
