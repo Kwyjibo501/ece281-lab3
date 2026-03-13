@@ -119,7 +119,7 @@ o_lights_L(2) <= f_Q(3) or f_Q(7);
                   
 o_lights_R(0) <= f_Q(4) or f_Q(5) or f_Q(6) or f_Q(7);
 o_lights_R(1) <= f_Q(5) or f_Q(6) or f_Q(7);          
-o_lights_R(2) <= f_Q(4) or f_Q(6) or f_Q(7);
+o_lights_R(2) <= f_Q(6) or f_Q(7);
 
 
 	-- PROCESSES --------------------------------------------------------------------
